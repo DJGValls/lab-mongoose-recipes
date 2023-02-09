@@ -5,7 +5,7 @@ const Recipe = require('./models/Recipe.model');
 // Import of the data from './data.json'
 const data = require('./data');
 
-const MONGODB_URI = 'mongodb://localhost:27017/recipe-app';
+const MONGODB_URI = 'mongodb://127.0.0.1/recipe-app';
 
 // Connection to the database "recipe-app"
 mongoose
@@ -18,32 +18,58 @@ mongoose
   .then(() => {
     // Run your code here, after you have insured that the connection was made
     return Recipe.create({
-      title: "Asian Glazed Chicken Thighs",
+      title: "Fideua",
     level: "Amateur Chef",
     ingredients: [
-      "1/2 cup rice vinegar",
-      "5 tablespoons honey",
-      "1/3 cup soy sauce (such as Silver Swan®)",
-      "1/4 cup Asian (toasted) sesame oil",
-      "3 tablespoons Asian chili garlic sauce",
-      "3 tablespoons minced garlic",
-      "salt to taste",
-      "8 skinless, boneless chicken thighs"
+      "fideos finos",
+      "1 pimiento verde",
+      "3 ajos",
+      "1 calabacin",
+      "2 zanahorias",
+      "1 calamar",
+      "15 langostinos",
+      "caldo de verdura",
     ],
-    cuisine: "Asian",
+    cuisine: "Catalana",
     dishType: "main_course",
-    image: "https://images.media-allrecipes.com/userphotos/720x405/815964.jpg",
+    image: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fimag.bonviveur.com%2Ffideua-de-pescado-y-marisco.jpg&imgrefurl=https%3A%2F%2Fwww.bonviveur.es%2Frecetas%2Ffideua-de-pescado-y-marisco&tbnid=56dciHYAwpUOuM&vet=12ahUKEwjFwejU8oj9AhWsvycCHQRXBHAQMygCegUIARCMAg..i&docid=rosmmrCJdO5NdM&w=1200&h=797&q=fideua&ved=2ahUKEwjFwejU8oj9AhWsvycCHQRXBHAQMygCegUIARCMAg",
     duration: 40,
-    creator: "Chef LePapu"
+    creator: "Chef Dani - Pilar"
     })
   })
-  .then((response)=>{
-    //console.log(response);
-    return Recipe.deleteOne({title: "Asian Glazed Chicken Thighs" })
-  })
+  // .then((response)=>{
+  //   //console.log(response);
+  //   // return Recipe.deleteOne({title: "Asian Glazed Chicken Thighs" })
+  // })
   .then(()=>{
     return Recipe.insertMany(data)
   })
+  .then((response)=>{
+    return Recipe.findOneAndUpdate({title:"Rigatoni alla Genovese"}, {duration: 100} , {new:true})
+  })
+  .then((response)=>{
+    console.log("Receta modificada correctamente")
+  })
+  .then(()=>{
+    return Recipe.deleteOne({title:"Carrot Cake"})
+  })
+  .then((response)=>{
+    console.log("Carrot Cake eliminado")
+    mongoose.connection.close(()=>{
+      console.log("Conexion cerrada")
+    })
+    
+  })
+  // .then(()=>{
+  //   mongoose.connection.close(()=>{
+  //     console.log("Conexion cerrada")
+  //   })
+  // })
+ 
+ 
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
+
+
+
